@@ -1,0 +1,17 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "A real-time multiplayer Rock Paper Scissors game built with HTML, CSS, JavaScript for the frontend, and Node.js with Express and WebSockets for the backend.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.1.0",
+    "ws": "^8.18.3"
+  }
+}
