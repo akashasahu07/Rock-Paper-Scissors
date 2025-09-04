@@ -5,10 +5,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="icon" type="image/x-icon" href="https://img.icons8.com/bubbles/100/controller.png">
 </head>
 
 <body>
+    <!-- Dark Mode Toggle -->
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle dark mode">
+        <i class="fa-solid fa-moon" id="theme-icon"></i>
+    </button>
+    
+    <h1>Multiplayer Rock Paper Scissors</h1>
+    <div id="game">
+        <div id="choices">
+            <button class="choices" data-choice="rock"><i class="fa-solid fa-hand-back-fist"></i></button>
+            <button class="choices" data-choice="paper"><i class="fa-solid fa-hand-paper"></i></button>
+            <button class="choices" data-choice="scissors"><i class="fa-solid fa-hand-scissors"></i></button>
+        </div>
 
+        <p id="status">Waiting for another player...</p>
+        <p id="result"></p>
+    </div>
+
+    <script src="client.js"></script>
 </body>
 
 </html>
