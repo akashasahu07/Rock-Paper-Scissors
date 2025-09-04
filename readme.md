@@ -32,7 +32,7 @@ rock-paper-scissors/
 ├── public/
 │   ├── index.html          # Main HTML file
 │   ├── style.css           # Styling for the game
-│   └── script.js           # Frontend JavaScript logic
+│   └── client.js           # Frontend JavaScript logic
 ├── server.js               # Node.js/Express server with Socket.io
 ├── package.json            # Project dependencies and scripts
 └── README.md               # This file
