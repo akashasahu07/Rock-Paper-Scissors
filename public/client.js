@@ -1,4 +1,9 @@
-const socket = new WebSocket('ws://localhost:3000');
+// Automatically pick the right WebSocket URL
+const socket = new WebSocket(
+  window.location.protocol === "https:"
+    ? `wss://${window.location.host}`
+    : `ws://${window.location.host}`
+);
 
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
