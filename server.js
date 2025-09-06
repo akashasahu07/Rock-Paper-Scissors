@@ -8,24 +8,30 @@ const wss = new webSocket.Server({ server });
 
 let players = [];
 
-wss.on('connection', (ws) => {
-    console.log('New player connected');
+wss.on("connection", (ws) => {
+    console.log("New player connected");
     const playerId = Date.now();
-    players[playerId] = { ws, choice: null };
+    players[playerId] = { ws, choice: null, name: null };
 
-    ws.send(JSON.stringify({ type: 'waiting', message: 'Waiting for another player...' }));
+    ws.send(JSON.stringify({ type: "waiting", message: "Waiting for another player..." }));
 
-    ws.on('message', (message) => {
+    ws.on("message", (message) => {
         const data = JSON.parse(message);
-        if (data.type === 'choice') {
+
+        if (data.type === "join") {
+            players[playerId].name = data.name;
+            console.log(`Player joined: ${data.name}`);
+        }
+
+        if (data.type === "choice") {
             players[playerId].choice = data.choice;
             checkGameResult();
         }
     });
 
-    ws.on('close', () => {
+    ws.on("close", () => {
         delete players[playerId];
-        console.log('Player disconnected');
+        console.log("Player disconnected");
     });
 });
 
@@ -33,26 +39,29 @@ function checkGameResult() {
     const playerIds = Object.keys(players);
     if (playerIds.length === 2) {
         const [player1Id, player2Id] = playerIds;
-        const player1 = players[player1Id].choice;
-        const player2 = players[player2Id].choice;
-        if (player1 && player2) {
-            let result;
-            if (player1 === player2) {
-                result = 'It\'s a tie!';
-            } else if (
-                (player1 === 'rock' && player2 === 'scissors') ||
-                (player1 === 'scissors' && player2 === 'paper') ||
-                (player1 === 'paper' && player2 === 'rock')
-            ) {
-                result = 'Player 1 wins!';
-            } else {
-                result = 'Player 2 wins!';
-            }
-            players[player1Id].ws.send(JSON.stringify({ type: 'result', message: result }));
-            players[player2Id].ws.send(JSON.stringify({ type: 'result', message: result }));
+        const player1 = players[player1Id];
+        const player2 = players[player2Id];
 
-            players[player1Id].choice = null;
-            players[player2Id].choice = null;
+        if (player1.choice && player2.choice) {
+            let result;
+
+            if (player1.choice === player2.choice) {
+                result = "It's a tie!";
+            } else if (
+                (player1.choice === "rock" && player2.choice === "scissors") ||
+                (player1.choice === "scissors" && player2.choice === "paper") ||
+                (player1.choice === "paper" && player2.choice === "rock")
+            ) {
+                result = `${player1.name} wins!`;
+            } else {
+                result = `${player2.name} wins!`;
+            }
+
+            player1.ws.send(JSON.stringify({ type: "result", message: result }));
+            player2.ws.send(JSON.stringify({ type: "result", message: result }));
+
+            player1.choice = null;
+            player2.choice = null;
         }
     }
 }

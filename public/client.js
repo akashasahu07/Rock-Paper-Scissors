@@ -5,24 +5,33 @@ const socket = new WebSocket(
         : `ws://${window.location.host}`
 );
 
+// Ask player for name
+const playerName = prompt("Enter your name:") || "Anonymous";
+
+// Send name to server after connection
+socket.onopen = () => {
+    socket.send(JSON.stringify({ type: "join", name: playerName }));
+};
+
 socket.onmessage = (event) => {
     const data = JSON.parse(event.data);
 
-    if (data.type === 'waiting') {
-        document.getElementById('status').innerText = data.message;
+    if (data.type === "waiting") {
+        document.getElementById("status").innerText = data.message;
     }
 
-    if (data.type === 'result') {
-        document.getElementById('result').innerText = `Game Result: ${data.message}`;
-        document.getElementById('status').innerText = 'Make your choice:';
+    if (data.type === "result") {
+        document.getElementById("result").innerText = `Game Result: ${data.message}`;
+        document.getElementById("status").innerText = "Make your choice:";
     }
 };
 
-document.querySelectorAll('.choices').forEach(button => {
-    button.addEventListener('click', () => {
+document.querySelectorAll(".choices").forEach(button => {
+    button.addEventListener("click", () => {
         const choice = button.dataset.choice;
-        socket.send(JSON.stringify({ type: 'choice', choice }));
-        document.getElementById('status').innerText = `You chose ${choice.charAt(0).toUpperCase() + choice.slice(1)}. Waiting for opponent...`;
+        socket.send(JSON.stringify({ type: "choice", choice }));
+        document.getElementById("status").innerText =
+            `You chose ${choice.charAt(0).toUpperCase() + choice.slice(1)}. Waiting for opponent...`;
     });
 });
 
