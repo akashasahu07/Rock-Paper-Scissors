@@ -11,7 +11,7 @@ let players = [];
 wss.on('connection', (ws) => {
     console.log('New player connected');
     const playerId = Date.now();
-    players[playerId] = {ws, choice: null};
+    players[playerId] = { ws, choice: null };
 
     ws.send(JSON.stringify({ type: 'waiting', message: 'Waiting for another player...' }));
 
